@@ -57,7 +57,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
                 succes = Int32.TryParse(Console.ReadLine(), out inputValue);
                 if (!succes || inputValue < 1)
                     Console.WriteLine("Nevalidan unos.Unesite pozitivan ceo broj");
-            } while (!succes);
+            } while (!succes || inputValue < 1);
             return inputValue;
         }
 
@@ -68,7 +68,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
                     Thread t = new Thread(GuessWantedNumber);
                     t.Name = String.Format("Ucesnik_{0}", i + 1);
                     threads.Add(t);
-                    //Console.WriteLine("Kreiran {0}",t.Name);
+                    
                 }              
         }
 
@@ -77,16 +77,17 @@ namespace DAN_XXXV_Dejan_Prodanovic
             int generatedNumber = rnd.Next(1,101);
             while (generatedNumber != wantedNumber && !numberGuessed)
             {
+                
+                Thread.Sleep(100);
+                generatedNumber = rnd.Next(1, 101);
+
                 if (numberGuessed)
                 {
                     break;
-                }
-                generatedNumber = rnd.Next(1, 101);
-                Thread.Sleep(100);
-                 
+                } 
                 lock (theLock)
                 {
-                    if (generatedNumber == wantedNumber && !numberGuessed)
+                    if (generatedNumber == wantedNumber&& !numberGuessed)
                     {
                         numberGuessed = true;
                         Console.WriteLine("{0} je pobedio", Thread.CurrentThread.Name);
@@ -94,7 +95,10 @@ namespace DAN_XXXV_Dejan_Prodanovic
                     }
                     else
                     {
-                        
+                        if (numberGuessed)
+                        {
+                            break;
+                        }
                         Console.Write("{0} je pokusao pogoditi broj {1}", Thread.CurrentThread.Name,
                             generatedNumber);
                         if (generatedNumber%2==wantedNumber%2)
