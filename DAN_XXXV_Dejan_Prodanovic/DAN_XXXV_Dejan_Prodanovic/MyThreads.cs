@@ -79,17 +79,18 @@ namespace DAN_XXXV_Dejan_Prodanovic
             {
                 if (numberGuessed)
                 {
-                    brea;
+                    break;
                 }
                 generatedNumber = rnd.Next(1, 101);
                 Thread.Sleep(100);
-                //Console.Write(".");
+                 
                 lock (theLock)
                 {
                     if (generatedNumber == wantedNumber && !numberGuessed)
                     {
-                        Console.WriteLine("{0} je pobedio", Thread.CurrentThread.Name);
                         numberGuessed = true;
+                        Console.WriteLine("{0} je pobedio", Thread.CurrentThread.Name);
+                       
                     }
                     else
                     {
