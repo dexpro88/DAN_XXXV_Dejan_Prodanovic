@@ -14,11 +14,22 @@ namespace DAN_XXXV_Dejan_Prodanovic
         {
             MyThreads mt = new MyThreads();
             Thread t1 = new Thread(mt.AppInput);
-            t1.Start();
-           
-            t1.Join();
+            Thread t2 = new Thread(mt.ThreadGeneratorMethod);
 
-            mt.ThreadGeneratorMethod();
+            t1.Start();
+
+
+            while (!mt.inputTaken)
+            {
+                Thread.Sleep(10);
+            }
+            t2.Start();
+
+            t1.Join();
+            t2.Join();
+
+            Console.WriteLine();
+
             foreach (var t in mt.threads)
             {
                 t.Start();
@@ -28,6 +39,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
             {
                 t.Join();
             }
+
             Console.ReadLine();
         }
     }

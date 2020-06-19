@@ -14,18 +14,25 @@ namespace DAN_XXXV_Dejan_Prodanovic
         Random rnd = new Random();
         public List<Thread> threads = new List<Thread>();
         bool numberGuessed = false;
+        public bool inputTaken = false;
+        private static object theLock = new object();
 
         public void AppInput()
         {
-            Console.WriteLine("Unesite broj ucesnika koji ucestvuju u pogadjanju:");
-            numberOfParticipants = IntInputForNumberOfParticipants();
-            Console.WriteLine("Unesite broj koji treba da se pogodi:");
-            wantedNumber = IntInputForWantedNumber();
+            
+                Console.WriteLine("Unesite broj ucesnika koji ucestvuju u pogadjanju:");
+                numberOfParticipants = IntInputForNumberOfParticipants();
+                Console.WriteLine("Unesite broj koji treba da se pogodi:");
+                wantedNumber = IntInputForWantedNumber();
 
-            Thread.Sleep(1000);
 
-            Console.WriteLine("Unesli ste {0} ucesnika u pogadjanju",numberOfParticipants);
-            Console.WriteLine("Broj koji treba da se pogodi je {0}",wantedNumber);
+                inputTaken = true;
+                Thread.Sleep(100);
+
+                Console.WriteLine("Unesli ste {0} ucesnika u pogadjanju", numberOfParticipants);
+                Console.WriteLine("Broj koji treba da se pogodi je {0}", wantedNumber);
+             
+                        
         }
 
         int IntInputForWantedNumber()
@@ -55,14 +62,14 @@ namespace DAN_XXXV_Dejan_Prodanovic
         }
 
         public void ThreadGeneratorMethod()
-        {
-            
-            for (int i = 0; i < numberOfParticipants; i++)
-            {
-                Thread t = new Thread(GuessWantedNumber);
-                t.Name = String.Format("Ucesnik_{0}",i+1);
-                threads.Add(t);
-            }
+        {       
+                for (int i = 0; i < numberOfParticipants; i++)
+                {
+                    Thread t = new Thread(GuessWantedNumber);
+                    t.Name = String.Format("Ucesnik_{0}", i + 1);
+                    threads.Add(t);
+                    //Console.WriteLine("Kreiran {0}",t.Name);
+                }              
         }
 
         public void GuessWantedNumber()
@@ -70,15 +77,35 @@ namespace DAN_XXXV_Dejan_Prodanovic
             int generatedNumber = rnd.Next(1,101);
             while (generatedNumber != wantedNumber && !numberGuessed)
             {
+                if (numberGuessed)
+                {
+                    brea;
+                }
                 generatedNumber = rnd.Next(1, 101);
                 Thread.Sleep(100);
-                Console.Write(".");
-                if (generatedNumber == wantedNumber && !numberGuessed)
+                //Console.Write(".");
+                lock (theLock)
                 {
-                    Console.WriteLine("{0} je pogodio broj",Thread.CurrentThread.Name);
-                    numberGuessed = true;
-                }
-               
+                    if (generatedNumber == wantedNumber && !numberGuessed)
+                    {
+                        Console.WriteLine("{0} je pobedio", Thread.CurrentThread.Name);
+                        numberGuessed = true;
+                    }
+                    else
+                    {
+                        
+                        Console.Write("{0} je pokusao pogoditi broj {1}", Thread.CurrentThread.Name,
+                            generatedNumber);
+                        if (generatedNumber%2==wantedNumber%2)
+                        {
+                            Console.Write("  Pogodio je parnost broja\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine();
+                        }
+                    }
+                }             
             }               
             
         }
