@@ -122,7 +122,8 @@ namespace DAN_XXXV_Dejan_Prodanovic
                     if (generatedNumber == wantedNumber&& !numberGuessed)
                     {
                         numberGuessed = true;
-                        Console.WriteLine("{0} je pobedio", Thread.CurrentThread.Name);
+                        Console.WriteLine("{0} je pobedio a trazeni broj je bio {1}", Thread.CurrentThread.Name,
+                           wantedNumber);
                        
                     }
                     else
@@ -139,7 +140,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
                         //we check if thread guessed parity of number 
                         if (generatedNumber%2==wantedNumber%2)
                         {
-                            Console.Write("{0} je pogodio  parnost broja\n", Thread.CurrentThread.Name);
+                            Console.Write("  {0} je pogodio  parnost broja\n", Thread.CurrentThread.Name);
                         }
                         else
                         {
