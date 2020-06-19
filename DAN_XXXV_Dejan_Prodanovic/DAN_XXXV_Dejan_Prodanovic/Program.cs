@@ -18,7 +18,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
 
             t1.Start();
 
-
+            //we wait user to take the input from the keyboard and than we can start the second thread
             while (!mt.inputTaken)
             {
                 Thread.Sleep(10);
@@ -30,6 +30,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
 
             Console.WriteLine();
 
+            //we start the threads from the list
             foreach (var t in mt.threads)
             {
                 t.Start();
