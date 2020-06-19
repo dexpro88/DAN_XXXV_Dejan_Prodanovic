@@ -13,7 +13,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
         private int wantedNumber;
         Random rnd = new Random();
         public List<Thread> threads = new List<Thread>();
-        int counter = 0;
+        bool numberGuessed = false;
 
         public void AppInput()
         {
@@ -53,6 +53,7 @@ namespace DAN_XXXV_Dejan_Prodanovic
             } while (!succes);
             return inputValue;
         }
+
         public void ThreadGeneratorMethod()
         {
             
@@ -67,18 +68,18 @@ namespace DAN_XXXV_Dejan_Prodanovic
         public void GuessWantedNumber()
         {
             int generatedNumber = rnd.Next(1,101);
-            while (generatedNumber != wantedNumber)
+            while (generatedNumber != wantedNumber && !numberGuessed)
             {
                 generatedNumber = rnd.Next(1, 101);
                 Thread.Sleep(100);
-                Console.WriteLine(Thread.CurrentThread.Name);
-            }
-
-            if (generatedNumber == wantedNumber)
-            {
-                Console.WriteLine("pogodili ste  broj");
-            }  
-          
+                Console.Write(".");
+                if (generatedNumber == wantedNumber && !numberGuessed)
+                {
+                    Console.WriteLine("{0} je pogodio broj",Thread.CurrentThread.Name);
+                    numberGuessed = true;
+                }
+               
+            }               
             
         }
     }
