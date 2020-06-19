@@ -12,6 +12,8 @@ namespace DAN_XXXV_Dejan_Prodanovic
         private int numberOfParticipants;
         private int wantedNumber;
         Random rnd = new Random();
+        public List<Thread> threads = new List<Thread>();
+        int counter = 0;
 
         public void AppInput()
         {
@@ -51,21 +53,26 @@ namespace DAN_XXXV_Dejan_Prodanovic
             } while (!succes);
             return inputValue;
         }
-        //public void ThreadGeneratorMethod()
-        //{
-        //    for (int i = 0; i < numberOfParticipants; i++)
-        //    {
-        //        Thread t = new Thread();
-        //    }
-        //}
+        public void ThreadGeneratorMethod()
+        {
+            
+            for (int i = 0; i < numberOfParticipants; i++)
+            {
+                Thread t = new Thread(GuessWantedNumber);
+                t.Name = String.Format("Ucesnik_{0}",i+1);
+                threads.Add(t);
+            }
+        }
 
         public void GuessWantedNumber()
         {
             int generatedNumber = rnd.Next(1,101);
-            //while (generatedNumber != wantedNumber)
-            //{
-            //    Thread.Sleep(100);
-            //}
+            while (generatedNumber != wantedNumber)
+            {
+                generatedNumber = rnd.Next(1, 101);
+                Thread.Sleep(100);
+                Console.WriteLine(Thread.CurrentThread.Name);
+            }
 
             if (generatedNumber == wantedNumber)
             {

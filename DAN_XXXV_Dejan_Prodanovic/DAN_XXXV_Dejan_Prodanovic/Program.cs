@@ -17,11 +17,17 @@ namespace DAN_XXXV_Dejan_Prodanovic
             t1.Start();
            
             t1.Join();
-            for (int i = 0; i < 100; i++)
+
+            mt.ThreadGeneratorMethod();
+            foreach (var t in mt.threads)
             {
-                mt.GuessWantedNumber();
+                t.Start();
             }
-            //mt.AppInput();
+
+            foreach (var t in mt.threads)
+            {
+                t.Join();
+            }
             Console.ReadLine();
         }
     }
